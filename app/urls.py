@@ -18,11 +18,29 @@ Including another URLconf
 from django.contrib import admin
 from django.http import JsonResponse
 from django.urls import path
+from django.db import connection
+
 
 def healthz(_):
     return JsonResponse({"ok": True})
 
+
+def liveness(_request):
+    return JsonResponse({"ok": True})
+
+
+def readiness(_request):
+    try:
+        with connection.cursor() as cur:
+            cur.execute("SELECT 1")
+        return JsonResponse({"ready": True})
+    except Exception as e:
+        return JsonResponse({"ready": False, "error": str(e)}, status=503)
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("healthz/", healthz),
+    path("liveness", liveness),
+    path("readiness", readiness),
 ]
