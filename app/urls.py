@@ -41,6 +41,6 @@ def readiness(_request):
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("healthz/", healthz),
-    path("liveness", liveness),
-    path("readiness", readiness),
+    path("liveness/", liveness),
+    path("readiness/", readiness),
 ]
