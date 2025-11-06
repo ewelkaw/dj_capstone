@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
-from django.db.models import Q
+from django.db.models import Q, F
+from django.contrib.postgres.indexes import GinIndex
 
 
 # Create your models here.
@@ -39,13 +40,32 @@ class Task(models.Model):
             models.UniqueConstraint(
                 fields=["project", "title"], name="uniq_task_per_project"
             ),
+            models.CheckConstraint(
+                check=Q(due_date__isnull=True) | Q(due_date__gte=F("created_at")),
+                name="task_due_after_created",
+            ),
+        ]
+        indexes = [
+            models.Index(
+                fields=["project", "status", "due_date"],
+                name="task_proj_status_due_idx",
+            ),
+            GinIndex(
+                name="task_title_trgm",
+                fields=["title"],
+                opclasses=["gin_trgm_ops"],
+            ),
         ]
         ordering = ["-created_at"]
 
+    def clean(self):
+        if self.title and len(self.title) < 3:
+            raise ValueError({"title": "Title must be at least 3 characters long."})
+
     def save(self, *args, **kwargs):
-        if len(self.title) < 3:
-            raise ValueError("Title must be at least 3 characters long.")
-        super().save(*args, **kwargs)
+        # runs clean() + field validators + unique checks
+        self.full_clean()
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.project} · {self.title}"
