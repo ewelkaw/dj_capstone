@@ -31,7 +31,7 @@ spec:
           command: ["python", "manage.py", "migrate", "--noinput"]
       containers:
         - name: web
-          image: localhost:5001/djapp:1.0.0
+          image: localhost:5001/djapp:1.0.2
           ports: [{ containerPort: 8000, name: http }]
           env:
             - name: DB_NAME
