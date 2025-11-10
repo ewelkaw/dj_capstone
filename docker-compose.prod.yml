@@ -1,0 +1,11 @@
+services:
+  web:
+    build: .
+    environment:
+      DB_HOST: host.docker.internal
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: app
+      DEBUG: "0"
+      DJANGO_SECRET_KEY: "change-me"
+    ports: ["8000:8000"]

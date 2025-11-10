@@ -3,14 +3,10 @@ FROM python:3.14-slim AS build
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-
-# --- runtime stage ---
-FROM python:3.14-slim
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 WORKDIR /app
 # create non-root user
 RUN useradd -m appuser
-COPY --from=build /usr/local /usr/local
 COPY . /app
 USER appuser
 EXPOSE 8000
