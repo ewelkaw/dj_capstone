@@ -43,5 +43,5 @@ transaction.atomic()
 
 
 def lock_task_for_update(task_id):
-    t = Task.objects.select_for_update(skip_locked=True).filtewr(id=task_id)
+    t = Task.objects.select_for_update(skip_locked=True).filter(id=task_id)
     return t.first()
