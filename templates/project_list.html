@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block title %}Projects{% endblock %}
+{% block content %}
+<h1>Projects list</h1>
+<form method="get" action="{% url 'project_list' %}">
+  <ol>
+    {% for project in projects %}
+    <li>
+      <a href="{% url 'project_detail' project.id %}">{{ project.name }}</a>
+      <a href="{% url 'project_update' project.id %}"><input type="button" value=" Update project" class="btn btn-primary" /></a>
+      <a href="{% url 'project_delete' project.id %}"><input type="button" value="Delete Project" class="btn btn-primary" /></a>
+    </li>
+    {% endfor %}
+  </ol>
+  <a href="{% url 'project_create' %}"><input type="button" value=" Create project" class="btn btn-primary" /></a>
+</form>
+{% endblock %}

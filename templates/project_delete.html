@@ -1,0 +1,9 @@
+{% extends "base.html" %} {% block title %}Projects{% endblock %}
+{% block content %}
+<h1>Project delete</h1>
+<form method="post" action="{% url 'project_delete' project.id %}">
+  {% csrf_token %}
+  <p>Are you sure you want to delete "{{ project.name }}"?</p>
+  <button type="submit">Delete project</button>
+</form>
+{% endblock %}

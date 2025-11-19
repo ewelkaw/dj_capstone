@@ -2,13 +2,20 @@ from django.db import models
 from django.utils.text import slugify
 from django.db.models import Q, F
 from django.contrib.postgres.indexes import GinIndex
+from django.core.exceptions import PermissionDenied
 
 
 # Create your models here.
 class Project(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, unique=True)
-
+    owner = models.ForeignKey(
+        "auth.User",
+        on_delete=models.CASCADE,
+        related_name="owned_%(class)ss",
+        null=True,
+        blank=True,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
@@ -34,6 +41,13 @@ class Task(models.Model):
     due_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    owner = models.ForeignKey(
+        "auth.User",
+        on_delete=models.CASCADE,
+        related_name="owned_%(class)ss",
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         constraints = [

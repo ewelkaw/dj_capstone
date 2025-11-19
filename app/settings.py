@@ -31,10 +31,15 @@ DEBUG = os.environ.get("DEBUG", False)
 
 ALLOWED_HOSTS = ["*"]
 
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "project_list"  # change to your main view name
+LOGOUT_REDIRECT_URL = "login"
+
 
 # Application definition
 
 INSTALLED_APPS = [
+    "accounts",
     "projects.apps.ProjectsConfig",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -59,7 +64,7 @@ ROOT_URLCONF = "app.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
