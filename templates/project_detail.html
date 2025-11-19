@@ -1,0 +1,11 @@
+{% extends "base.html" %} {% block title %}Project{% endblock %}
+{% block content %}
+<h1>Project detail</h1>
+<form method="get" action="{% url 'project_detail' project.id %}">
+  {{ project.name }}{{ project.owner }}
+</form>
+
+  <a href="{% url 'project_list' %}" name='project_list' role="button">
+              Project list
+          </a>
+{% endblock %}
