@@ -76,12 +76,9 @@ urlpatterns = [
     path("project_create/", view=project_create, name="project_create"),
     path("project_update/<int:pk>", view=project_update, name="project_update"),
     path("project_delete/<int:pk>", view=project_delete, name="project_delete"),
-<<<<<<< HEAD
-=======
     path("task_list/", view=task_list, name="task_list"),
     path("task_detail/<int:pk>", view=task_detail, name="task_detail"),
     path("task_create/", view=task_create, name="task_create"),
     path("task_update/<int:pk>", view=task_update, name="task_update"),
     path("task_delete/<int:pk>", view=task_delete, name="task_delete"),
->>>>>>> feature/add_task_flow
 ]

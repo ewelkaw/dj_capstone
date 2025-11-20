@@ -1,14 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 
-import projects
-<<<<<<< HEAD
-from projects.forms import ProjectForm
-from projects.models import Project
-=======
 from projects.forms import ProjectForm, TaskForm
 from projects.models import Project, Task
->>>>>>> feature/add_task_flow
 from projects.permissions import require_owner_or_staff
 
 
@@ -21,13 +15,8 @@ def project_list(request):
 @login_required
 def project_detail(request, pk):
     project = get_object_or_404(Project, pk=pk)
-<<<<<<< HEAD
-    return render(request, "project_detail.html", {"project": project})
-=======
     tasks = Task.objects.filter(project=project)
-    print("Tasks XXXXX:", tasks)
     return render(request, "project_detail.html", {"project": project, "tasks": tasks})
->>>>>>> feature/add_task_flow
 
 
 @login_required
@@ -70,8 +59,6 @@ def project_delete(request, pk):
         projects = Project.objects.filter(owner=request.user)
         return render(request, "project_list.html", {"projects": projects})
     return render(request, "project_delete.html", {"project": project})
-<<<<<<< HEAD
-=======
 
 
 @login_required
@@ -127,4 +114,3 @@ def task_delete(request, pk):
         tasks = Task.objects.filter(owner=request.user)
         return render(request, "task_list.html", {"tasks": tasks})
     return render(request, "task_delete.html", {"task": task})
->>>>>>> feature/add_task_flow
