@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block title %}Tasks{% endblock %}
+{% block content %}
+<h1>Tasks list</h1>
+<form method="get" action="{% url 'task_list' %}">
+  <ol>
+    {% for task in tasks %}
+    <li>
+      <a href="{% url 'task_detail' task.id %}">{{task.title }}</a>
+      <a href="{% url 'task_update' task.id %}"><input type="button" value=" Update task" class="btn btn-primary" /></a>
+      <a href="{% url 'task_delete' task.id %}"><input type="button" value="Delete task" class="btn btn-primary" /></a>
+    </li>
+    {% endfor %}
+  </ol>
+  <a href="{% url 'task_create' %}"><input type="button" value=" Create task" class="btn btn-primary" /></a>
+</form>
+{% endblock %}
