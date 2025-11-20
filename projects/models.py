@@ -1,8 +1,8 @@
 from django.db import models
+from django.forms import ValidationError
 from django.utils.text import slugify
 from django.db.models import Q, F
 from django.contrib.postgres.indexes import GinIndex
-from django.core.exceptions import PermissionDenied
 
 
 # Create your models here.
@@ -74,10 +74,13 @@ class Task(models.Model):
 
     def clean(self):
         if self.title and len(self.title) < 3:
-            raise ValueError({"title": "Title must be at least 3 characters long."})
+            raise ValidationError(
+                {"title": "Title must be at least 3 characters long."}
+            )
 
     def save(self, *args, **kwargs):
         # runs clean() + field validators + unique checks
+        # this will raise ValidationError, which Django forms know how to display
         self.full_clean()
         return super().save(*args, **kwargs)
 
